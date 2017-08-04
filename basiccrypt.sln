@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "cryptors", "cryptors", "{7E66AF22-2B21-40E2-A96C-A6DD6C4CC21F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "arch", "arch", "{A0E45A24-115A-4CB0-8579-8CE5462852DE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "hash", "hash", "{A05162DB-71DA-454E-8450-4637B9FEE53B}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xor", "xor\xor.vcxproj", "{2A29615F-DBB6-4EF2-AB79-8AACE96ECBA8}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DES", "DES\DES.vcxproj", "{85429D9D-2725-4E40-8A14-BCA42474D913}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2A29615F-DBB6-4EF2-AB79-8AACE96ECBA8}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2A29615F-DBB6-4EF2-AB79-8AACE96ECBA8}.Debug|Win32.Build.0 = Debug|Win32
+		{2A29615F-DBB6-4EF2-AB79-8AACE96ECBA8}.Release|Win32.ActiveCfg = Release|Win32
+		{2A29615F-DBB6-4EF2-AB79-8AACE96ECBA8}.Release|Win32.Build.0 = Release|Win32
+		{85429D9D-2725-4E40-8A14-BCA42474D913}.Debug|Win32.ActiveCfg = Debug|Win32
+		{85429D9D-2725-4E40-8A14-BCA42474D913}.Debug|Win32.Build.0 = Debug|Win32
+		{85429D9D-2725-4E40-8A14-BCA42474D913}.Release|Win32.ActiveCfg = Release|Win32
+		{85429D9D-2725-4E40-8A14-BCA42474D913}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2A29615F-DBB6-4EF2-AB79-8AACE96ECBA8} = {7E66AF22-2B21-40E2-A96C-A6DD6C4CC21F}
+		{85429D9D-2725-4E40-8A14-BCA42474D913} = {7E66AF22-2B21-40E2-A96C-A6DD6C4CC21F}
+	EndGlobalSection
+EndGlobal
