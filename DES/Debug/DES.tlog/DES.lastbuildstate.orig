@@ -1,0 +1,7 @@
+<<<<<<< HEAD
+#TargetFrameworkVersion=v4.0:PlatformToolSet=v120:EnableManagedIncrementalBuild=false:VCToolArchitecture=Native32Bit
+Debug|Win32|D:\NEW\MY_PROJ\CODE\C\basiccrypt\|
+=======
+#TargetFrameworkVersion=v4.0:PlatformToolSet=v120:EnableManagedIncrementalBuild=false:VCToolArchitecture=Native32Bit
+Debug|Win32|D:\PROJ\basiccrypt\|
+>>>>>>> 4fcad92b2cf8cfdfac472c6e73bbdf314a182c7e
