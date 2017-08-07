@@ -11,10 +11,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{2A29615F-DBB6-4EF2-AB79-8AACE96ECBA8}</ProjectGuid>
+    <ProjectGuid>{C0E57F88-7879-4951-8F44-11ECE274C5E6}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>xor</RootNamespace>
-    <ProjectName>XOR</ProjectName>
+    <RootNamespace>md5</RootNamespace>
+    <ProjectName>MD-5</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -77,7 +77,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Source.cpp" />
+    <ClCompile Include="md5.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

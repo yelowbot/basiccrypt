@@ -11,10 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{2A29615F-DBB6-4EF2-AB79-8AACE96ECBA8}</ProjectGuid>
+    <ProjectGuid>{B1F719EE-16E1-44EE-BB4A-7D5A98838E39}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>xor</RootNamespace>
-    <ProjectName>XOR</ProjectName>
+    <RootNamespace>CRC</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -77,7 +76,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Source.cpp" />
+    <ClCompile Include="crc.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
