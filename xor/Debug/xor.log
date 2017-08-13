@@ -1,1 +1,2 @@
-﻿  xor.vcxproj -> D:\NEW\MY_PROJ\CODE\C\basiccrypt\Debug\XOR.exe
+﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets(364,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
+  xor.vcxproj -> D:\NEW\MY_PROJ\CODE\C\basiccrypt\\lib\XOR.lib
