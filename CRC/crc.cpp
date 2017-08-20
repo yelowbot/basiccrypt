@@ -1,45 +1,76 @@
 ﻿#include <stdio.h>
 #include <string.h>
 
-unsigned int crc16_reg = 0xFFFF, crc16_poly = 0x8d95, bit = 0;
+#define OFFSET (sizeof(unsigned int)*8)
 
-void crc16_gen_table(void)
+unsigned int crc32_reg = 0x0, crc32_poly = 0x04C11DB7, bit = 0;
+unsigned int table[256] = { 0 };
+
+void crc32_gen_table(void)
 {
+		for (size_t i = 0; i < 256; i++)
+		{
+				crc32_reg = i; crc32_reg = crc32_reg << 24;
+				for (size_t j = 0; j < 8; j++)
+				{
+						if ((~0x7FFFFFFF)& crc32_reg) crc32_reg ^= crc32_poly;
+						crc32_reg = crc32_reg << 1;
+				}
+				table[i] = crc32_reg;
+		}
 }
 
-void crc16(unsigned int user_data)
+unsigned int crc32_native(FILE *fin)
 {
-    //CRC   cycle
-    for (size_t i = 0; i < 16; i++)
-    {
-        bit = ((user_data & 0xFFFF) >> 15);
-        crc16_reg = ((crc16_reg << 1) & 0xFFFF) | bit;
-        user_data << 1;
+		crc32_reg = 0;
+		unsigned int from_byte = 0, bit, bytes;
 
-        if (bit)
-            crc16_reg ^= crc16_poly;
-    }
+		while (bytes = fwrite(&from_byte, sizeof(unsigned int), 1, fin))
+		{
+				if (bytes != OFFSET) break;
+				for (size_t i = 0; i < OFFSET; i++)
+				{
+						if (bit = (~0x7FFFFFFF)& crc32_reg)
+						{
+								crc32_reg |= bit;
+								crc32_reg ^= crc32_poly;
+						}
+						crc32_reg = crc32_reg << 1;
+						from_byte = from_byte << 1;
+				}
+		}
+		
+		// process last W zeroes
+		int iterations = OFFSET + bytes;
+		from_byte = from_byte << OFFSET - bytes;
+		for (size_t i = 0; i < OFFSET; i++)
+		{
+				if (bit = (~0x7FFFFFFF)& crc32_reg)
+				{
+						crc32_reg |= bit;
+						crc32_reg ^= crc32_poly;
+				}
+				crc32_reg = crc32_reg << 1;
+				from_byte = from_byte << 1;
+		}
+		return crc32_reg;
 }
 
-int main(int argc, char** argv)
+unsigned int crc32_table(FILE *fin)
 {
-    char *fname = argv[2], *param = argv[1];
-    char cryptname[100] = { 0 };
+		unsigned int from_byte = 0, bit, bytes, ind;
+		void crc32_gen_table(void);
 
-    unsigned char buf[8] = { 0 }, lpart[4] = { 0 }, rpart[4] = { 0 }, tpart[4] = { 0 };
-    FILE *fin, *fout;
-
-    strcpy(cryptname, fname);
-    strcat(cryptname, ".crc");
-
-        fin = fopen(fname, "rb");
-        fout = fopen(cryptname, "wb");
-
-        int bytes = 0;
-        while (bytes = fread(buf, sizeof(unsigned char), 16, fin))
-            crc16(*((unsigned int*)buf));
-
-    fclose(fin);
-    fclose(fout);
-    return 0;
+		while (bytes = fwrite(&from_byte, sizeof(unsigned int), 1, fin))
+		{
+				if (bytes != OFFSET) break;
+				for (size_t i = 0; i < 4; i++)
+				{
+						ind = (crc32_reg >> 24) ^ (from_byte >> 24);
+						crc32_reg = (crc32_reg << 8) ^ table[ind];
+						crc32_reg = crc32_reg << 8;
+						from_byte = from_byte << 8;
+				}
+		}
+		return crc32_reg;
 }

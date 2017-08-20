@@ -1,1 +1,5 @@
-﻿
+﻿  Huffman.cpp
+d:\new\my_proj\code\c\basiccrypt\huffman\huffman.cpp(158): warning C4293: '<<' : shift count negative or too big, undefined behavior
+d:\new\my_proj\code\c\basiccrypt\huffman\huffman.cpp(161): warning C4293: '>>' : shift count negative or too big, undefined behavior
+d:\new\my_proj\code\c\basiccrypt\huffman\huffman.cpp(50): warning C4717: 'make_table' : recursive on all control paths, function will cause runtime stack overflow
+  HUFFMAN.vcxproj -> D:\NEW\MY_PROJ\CODE\C\basiccrypt\Debug\HUFFMAN.lib
