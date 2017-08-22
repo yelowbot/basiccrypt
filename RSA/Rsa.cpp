@@ -10,6 +10,7 @@ int byte = 0;
 #define SEIVE_SZ 1000
 unsigned int primes[SEIVE_SZ] = { 1 };
 unsigned int primes_cnt = 0;
+int p, q, N, fN, e, d;
 
 void seive(void)
 {
@@ -27,71 +28,87 @@ void seive(void)
 		primes_cnt = ind;
 }
 
-void RSA_encrypt(FILE *fin, FILE *fout, int key)
+bool ÑoPrime_euclid(int a, int b)
 {
-		
-		while (byte = fgetc(fin))
+		for (;;)
 		{
-				filled += table[byte].code_len;
-				if (filled <= sizeof(unsigned int))
-				{
-						to_encr <<= table[byte].code_len;
-						to_encr = to_encr | table[byte].code;
-				}
-				else
-				{
-						fwrite(&to_encr, sizeof(unsigned int), 1, fout);
-						filled = to_encr = 0;
-				}
+				if (!(a %= b)) return b == 1;
+				if (!(b %= a)) return a == 1;
 		}
 }
 
+// C function for extended Euclidean Algorithm
+int Extended_euclid(int a, int b, int *x, int *y)
+{
+		if (a == 0)
+		{
+				*x = 0, *y = 1;
+				return b;
+		}
+		int x1, y1; // To store results of recursive call
+		int gcd = Extended_euclid(b%a, a, &x1, &y1);
+
+		*x = y1 - (b / a) * x1;
+		*y = x1;
+		return gcd;
+}
+
+// Function to find modulo inverse of a
+int modInverse(int a, int m)
+{
+		int x, y;
+		int g = Extended_euclid(a, m, &x, &y);
+		if (g != 1)
+				return -1;
+		else
+		{
+				// m is added to handle negative x
+				int res = (x%m + m) % m;
+				return res;
+		}
+}
+
+// Iterative Function to calculate (x^y)%p in O(log y)
+int modulo_power(int x, unsigned int y, int p)
+{
+		int res = 1;
+		x = x % p;
+		while (y > 0)
+		{
+				// If y is odd, multiply x with result
+				if (y & 1) res = (res*x) % p;
+				// y must be even now
+				y = y >> 1;
+				x = (x*x) % p;
+		}
+		return res;
+}
+
+void RSA_init(void)
+{
+		while ((p = primes[rand() % primes_cnt]) == (q = primes[rand() % primes_cnt]));
+		N = p*q;
+		fN = (p - 1)*(q - 1);
+		e = rand() % fN;
+		while (!ÑoPrime_euclid(e, fN))
+				e = rand() % fN;
+		d = modInverse(e, N);
+}
+void RSA_encrypt(FILE *fin, FILE *fout)
+{
+		int from_byte = 0, crypt_byte;
+		while (fread(&from_byte, sizeof(int), 1, fin))
+		{
+				crypt_byte = modulo_power(from_byte, e, N);
+				fwrite(&crypt_byte, sizeof(char), 1, fout);
+		}
+}
 void RSA_decrypt(FILE *fin, FILE *fout, int key)
 {
-		unsigned int tab_size, from_byte, new_ch, mask;
-		fread(&tab_size, sizeof(unsigned int), 1, fin);
-
-		vector<tabl_inst> tabl2;
-		char chrtr;
-		int ch_code, ch_codelen, max_ind = 0;
-		for (size_t i = 0; i < tab_size; i++)
+		int from_byte = 0, decrypt_byte;
+		while (fread(&from_byte, sizeof(int), 1, fin))
 		{
-				fread(&from_byte, sizeof(unsigned int), 1, fin);
-				ch_code = from_byte;
-				fread(&from_byte, sizeof(unsigned int), 1, fin);
-				ch_codelen = from_byte & (~0xFF);
-				chrtr = from_byte >> sizeof(char) * 8;
-				tabl_inst newtabins(ch_code, ch_codelen, chrtr);
-				tabl2.push_back(newtabins);
-
-				if (ch_code > max_ind)
-						max_ind = ch_code;
-		}
-		tabl_inst ins;
-		vector<tabl_inst> tabl3; tabl3.resize(max_ind);
-
-		for (auto i : tabl3) i = ins;
-		for (auto i : tabl2) tabl3[i.code] = i;
-		//
-
-		int bytes = 0;
-		unsigned char buf[100] = { 0 };
-
-
-		while (fread(&from_byte, sizeof(unsigned int), 1, fin))
-		{
-				new_ch = 0;
-				mask = 1 << OFFSET;
-				for (int i = 0; i < sizeof(unsigned int) * 8; i++)
-				{
-						new_ch |= (from_byte & mask) >> OFFSET;
-						if (tabl3[new_ch].code != -1)
-						{
-								fwrite(&tabl3[new_ch].ch, sizeof(char), 1, fout);
-								break;
-						}
-				}
-				fwrite(buf, sizeof(unsigned char), bytes, fout);
-				memset(buf, 0, sizeof(buf));
+				decrypt_byte = modulo_power(from_byte, d, N);
+				fwrite(&decrypt_byte, sizeof(char), 1, fout);
 		}
 }
